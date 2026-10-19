@@ -79,12 +79,39 @@ class SearchRequest(BaseModel):
     query: str
     source: str = "auto"
     workspace_id: int
+    force_tier: str | None = None
+    min_confidence: float = 0.6
 
 
 class SearchResponse(BaseModel):
     query: str
     source: str
     results: list[UniversalEntityRead]
+
+
+class TierInfo(BaseModel):
+    """Зведення по одному рівні каскаду."""
+
+    name: str
+    entities_count: int = 0
+    confidence: float = 0.0
+    duration_ms: int = 0
+    skipped: bool = False
+    skip_reason: str | None = None
+    error: str | None = None
+
+
+class CascadeSearchResponse(BaseModel):
+    """Відповідь каскадного пошуку (зберігає `results` для сумісності)."""
+
+    query: str
+    source: str
+    query_type: str
+    intent: str
+    confidence: float
+    results: list[UniversalEntityRead]
+    tiers: list[TierInfo] = Field(default_factory=list)
+    stopped_at: str | None = None
 
 
 class AnalyzeRequest(BaseModel):

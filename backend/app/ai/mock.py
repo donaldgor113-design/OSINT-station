@@ -48,3 +48,10 @@ class MockAIProvider(AIProviderAdapter):
         lines.append("(mock-аналіз)")
 
         return " ".join(lines)
+
+    async def complete(self, prompt: str) -> str:
+        # Mock не вміє витягувати структуру — повертаємо валідній порожній JSON.
+        return "[]"
+
+    async def is_available(self) -> tuple[bool, str | None]:
+        return True, None

@@ -85,10 +85,25 @@ export interface UniversalEntity {
   raw_data: Record<string, unknown>;
 }
 
+export interface TierInfo {
+  name: string;
+  entities_count: number;
+  confidence: number;
+  duration_ms: number;
+  skipped: boolean;
+  skip_reason?: string | null;
+  error?: string | null;
+}
+
 export interface SearchResponse {
   query: string;
   source: string;
+  query_type?: string;
+  intent?: string;
+  confidence?: number;
   results: UniversalEntity[];
+  tiers?: TierInfo[];
+  stopped_at?: string | null;
 }
 
 export type SourceName =

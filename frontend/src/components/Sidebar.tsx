@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { GearIcon, ImageIcon, ListIcon, MapIcon, SearchIcon, SparkIcon, UserIcon } from "./icons";
+import { BankIcon, BuildingIcon, GearIcon, HomeIcon, ImageIcon, ListIcon, MapIcon, SearchIcon, SparkIcon, UserIcon, UsersIcon } from "./icons";
 
 interface NavItem {
   id: string;
@@ -8,10 +8,14 @@ interface NavItem {
 }
 
 const MAIN: NavItem[] = [
+  { id: "home", label: "Домашня", icon: <HomeIcon /> },
   { id: "search", label: "Пошук", icon: <SearchIcon /> },
   { id: "geo", label: "Гео-мапи", icon: <MapIcon /> },
   { id: "images", label: "Зображення", icon: <ImageIcon /> },
   { id: "entities", label: "Сутності", icon: <ListIcon /> },
+  { id: "people", label: "Особи", icon: <UsersIcon /> },
+  { id: "finance", label: "Фінанси", icon: <BankIcon /> },
+  { id: "companies", label: "Підприємства", icon: <BuildingIcon /> },
   { id: "analyze", label: "Аналіз", icon: <SparkIcon /> },
 ];
 

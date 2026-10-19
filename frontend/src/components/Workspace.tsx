@@ -4,20 +4,28 @@ import { useMapStore } from "../store/mapState";
 import { useWorkspaceStore } from "../store/workspaceState";
 import type { UniversalEntity } from "../types";
 import AnalyzePanel from "./AnalyzePanel";
+import CompaniesView from "./CompaniesView";
 import EntityCard from "./EntityCard";
+import FinanceView from "./FinanceView";
 import GeoWorkspace from "./GeoWorkspace";
+import HomeView from "./HomeView";
 import ImagePanel from "./ImagePanel";
+import PeopleView from "./PeopleView";
 import ProfileView from "./ProfileView";
-import SearchBar from "./SearchBar";
+import SearchView from "./SearchView";
 import SettingsView from "./SettingsView";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 
 const TITLES: Record<string, string> = {
+  home: "Домашня сторінка",
   search: "Пошук",
   geo: "Гео-мапи",
   images: "Зображення",
   entities: "Сутності",
+  people: "Особи",
+  finance: "Фінанси",
+  companies: "Підприємства",
   analyze: "Аналіз",
   settings: "Налаштування",
   profile: "Профіль",
@@ -27,7 +35,7 @@ export default function Workspace() {
   const currentId = useWorkspaceStore((s) => s.currentId);
   const setCenter = useMapStore((s) => s.setCenter);
 
-  const [active, setActive] = useState("search");
+  const [active, setActive] = useState("home");
   const [results, setResults] = useState<UniversalEntity[]>([]);
   const [entities, setEntities] = useState<UniversalEntity[]>([]);
   const [loading, setLoading] = useState(false);
@@ -92,37 +100,14 @@ export default function Workspace() {
         <main className="app-content">
           {error && <div className="error">Помилка: {error}</div>}
 
-          {active === "search" && (
-            <>
-              {currentId == null ? (
-                noWorkspace()
-              ) : (
-                <>
-                  <SearchBar onSearch={handleSearch} loading={loading} />
-                  {query && !loading && (
-                    <div className="result-count">Результатів: {results.length}</div>
-                  )}
-                  {results.length === 1 && results[0].entity_type === "company" ? (
-                    <div className="company-full">
-                      <EntityCard entity={results[0]} />
-                    </div>
-                  ) : (
-                    <div className="entity-grid">
-                      {results.map((e) => (
-                        <EntityCard key={e.entity_id} entity={e} />
-                      ))}
-                    </div>
-                  )}
-                  {!loading && results.length === 0 && (
-                    <div className="empty">Нічого не знайдено. Спробуйте інший запит.</div>
-                  )}
-                </>
-              )}
-            </>
-          )}
+          {active === "home" && <HomeView />}
+          {active === "search" && <SearchView />}
 
           {active === "geo" && <GeoWorkspace />}
           {active === "images" && <ImagePanel onLocate={handleLocate} />}
+          {active === "people" && <PeopleView />}
+          {active === "finance" && <FinanceView />}
+          {active === "companies" && <CompaniesView />}
 
           {active === "entities" && (
             <>

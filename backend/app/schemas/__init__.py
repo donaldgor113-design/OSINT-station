@@ -1,6 +1,7 @@
 from .universal_entity import (
     AnalyzeRequest,
     AnalyzeResponse,
+    CascadeSearchResponse,
     DigitalFootprint,
     GeoProperty,
     Metadata,
@@ -9,6 +10,7 @@ from .universal_entity import (
     SearchRequest,
     SearchResponse,
     Source,
+    TierInfo,
     TemporalProperty,
     UniversalEntityCreate,
     UniversalEntityRead,
@@ -19,6 +21,7 @@ from .provider import ProviderCreate, ProviderRead
 __all__ = [
     "AnalyzeRequest",
     "AnalyzeResponse",
+    "CascadeSearchResponse",
     "DigitalFootprint",
     "GeoProperty",
     "Metadata",
@@ -29,6 +32,7 @@ __all__ = [
     "SearchRequest",
     "SearchResponse",
     "Source",
+    "TierInfo",
     "TemporalProperty",
     "UniversalEntityCreate",
     "UniversalEntityRead",

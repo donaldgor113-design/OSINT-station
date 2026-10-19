@@ -54,3 +54,23 @@ class OllamaProvider(AIProviderAdapter):
                 return response.json().get("response", "").strip()
         except Exception as exc:  # noqa: BLE001
             return f"(Ollama недоступний: {exc})"
+
+    async def complete(self, prompt: str) -> str:
+        try:
+            model = await self._resolve_model()
+            payload = {"model": model, "prompt": prompt, "stream": False}
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.post(f"{self.base_url}/api/generate", json=payload)
+                response.raise_for_status()
+                return response.json().get("response", "").strip()
+        except Exception as exc:  # noqa: BLE001
+            return f"(Ollama недоступний: {exc})"
+
+    async def is_available(self) -> tuple[bool, str | None]:
+        try:
+            async with httpx.AsyncClient(timeout=2.0) as client:
+                response = await client.get(f"{self.base_url}/api/tags")
+                response.raise_for_status()
+            return True, None
+        except Exception as exc:  # noqa: BLE001
+            return False, f"ollama unreachable: {exc}"

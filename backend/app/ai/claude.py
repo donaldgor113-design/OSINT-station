@@ -46,3 +46,11 @@ class ClaudeProvider(AIProviderAdapter):
             response.raise_for_status()
             data = response.json()
         return data["content"][0]["text"]
+
+    async def complete(self, prompt: str) -> str:
+        return await self._complete(prompt)
+
+    async def is_available(self) -> tuple[bool, str | None]:
+        if not self.api_key:
+            return False, "no api key"
+        return True, None

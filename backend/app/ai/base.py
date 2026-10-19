@@ -16,3 +16,11 @@ class AIProviderAdapter(ABC):
     @abstractmethod
     async def cross_check(self, entities: list[dict]) -> str:
         """Compare entities across sources and flag inconsistencies."""
+
+    async def complete(self, prompt: str) -> str:
+        """Generic raw completion for free-form prompts (extraction, etc.)."""
+        raise NotImplementedError
+
+    async def is_available(self) -> tuple[bool, str | None]:
+        """(True, None) якщо провайдер налаштований/доступний, інакше (False, причина)."""
+        return True, None

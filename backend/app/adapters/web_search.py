@@ -27,7 +27,7 @@ _HEADERS = {
 # Simple in-memory cache + throttle to avoid triggering engine rate limits.
 _cache: dict[str, list[dict]] = {}
 _last_request = 0.0
-_MIN_INTERVAL = 2.5
+_MIN_INTERVAL = 1.0
 
 
 def _strip(value: str) -> str:
@@ -77,7 +77,7 @@ async def _get(url: str, params: dict) -> str | None:
     await _throttle()
     try:
         async with httpx.AsyncClient(
-            timeout=20.0, follow_redirects=True, headers=_HEADERS
+            timeout=10.0, follow_redirects=True, headers=_HEADERS
         ) as client:
             response = await client.get(url, params=params)
             response.raise_for_status()
@@ -226,7 +226,7 @@ async def search_playwright(query: str, limit: int) -> list[dict]:
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             page = await browser.new_page()
-            await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            await page.goto(url, wait_until="domcontentloaded", timeout=15000)
             html = await page.content()
             await browser.close()
         return parse_ddg_lite(html)[:limit]

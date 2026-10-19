@@ -53,3 +53,11 @@ class OpenAIProvider(AIProviderAdapter):
             return data["choices"][0]["message"]["content"].strip()
         except Exception as exc:  # noqa: BLE001
             return f"({self.name} недоступний: {exc})"
+
+    async def complete(self, prompt: str) -> str:
+        return await self._complete(prompt)
+
+    async def is_available(self) -> tuple[bool, str | None]:
+        if not self.api_key:
+            return False, "no api key"
+        return True, None

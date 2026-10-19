@@ -33,6 +33,17 @@ class Settings(BaseSettings):
     ollama_model: str = ""
     ollama_vision_model: str = ""
 
+    # --- Search Orchestrator ----------------------------------------------
+    # Мінімальний confidence, після якого каскад зупиняється (0.0–1.0)
+    search_min_confidence: float = 0.6
+    # Максимальна кількість рівнів (для дебагу: 1 = тільки Tier0)
+    search_max_tiers: int = 5
+    # Кеш пошуку. Порожньо → in-memory; інакше Redis URL.
+    redis_url: str = ""
+    # Опційні ключі для Tier1/Tier4
+    jina_api_key: str = ""
+    serper_api_key: str = ""
+
     # Parsed as a JSON list or comma-separated string.
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
